@@ -49,6 +49,7 @@ from alpaca.trading.client import TradingClient
 from alpaca.trading.requests import LimitOrderRequest
 from alpaca.trading.enums import TimeInForce, OrderSide
 import math
+import os
 
 
 
@@ -82,7 +83,7 @@ class TradingBot(object):
 class TradeExecutor():
     def __init__(self, portfolio):
         self.portfolio = portfolio
-        self.client = TradingClient("PK7RX6I9DDDL94GV08OR", "JbIvyBG7RgOW3MuFvxTwZu5oPoBkpslp04Bc9s4l", paper=True)
+        self.client = TradingClient(os.getenv("API-KEY"), "os.getenv("SECRET-API-KEY")", paper=True)
 
     def execute_trades(self, signals, position_sizes):
 
@@ -317,5 +318,6 @@ bot = TradingBot(z_score_strategy, user_cash)
 
 
 bot.run()
+
 
 
