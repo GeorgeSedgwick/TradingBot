@@ -1,0 +1,37 @@
+##Switch from Alpaca to IBKR: Take raw tick data, manually aggregate into intervals.
+
+class TradeExecutor():
+    def __init__(self, portfolio):
+        self.portfolio = portfolio
+        self.client = TradingClient(os.getenv("API-KEY"), "os.getenv("SECRET-API-KEY")", paper=True)
+
+    def execute_trades(self, signals, position_sizes):
+
+        for ticker in signals:
+            if signals[ticker] == "Buy":
+                print(f"{ticker}: Buying {position_sizes[ticker]['shares']}...")
+                #print(f"Shares inside trade method: {position_sizes[ticker]['shares']}")
+                #print(f"PRINTING {ticker} position size: {position_sizes[ticker]}") ##ERROR HERE NOT GETTING ANY SHARES
+                try:
+
+
+                    #contract = Stock("ticker", "LSE", "GBP")
+
+                    #TODO: Add the order function and fill parameters correctly for loop//
+
+
+
+
+                    limit_order = LimitOrderRequest(
+                        symbol=ticker,
+                        qty = position_sizes[ticker]['shares'],
+                        side=OrderSide.BUY,
+                        limit_price=position_sizes[ticker]['buy_limit_price'],
+                        time_in_force=TimeInForce.DAY
+
+                    )
+                    order = self.client.submit_order(order_data=limit_order)
+                    print(f"Executed long trade for: {ticker}")
+                    self.portfolio.add_asset(Asset(ticker, position_sizes[ticker]['buy_limit_price'], position_sizes[ticker]['shares']))
+
+
